@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Example</title>
+    </head>
+    <body>
+        <!--
+            accesskey attribute
+
+            Trigger via alt+<key>.
+
+            @date       June 6, 2013
+            @browser    FF20, Chrome27 and IE9. 
+            @notwork    FF20
+        -->
+        <form>
+            Name: <input type="text" name="name" accesskey="n"/>
+            <p/>
+            Password: <input type="password" name="password" accesskey="p"/>
+            <p/>
+            <input type="submit" value="Log In" accesskey="s">
+        </form>
+
+        <!--
+            class attribute
+
+            @date       June 6, 2013
+            @browser    FF20, Chrome27 and IE9.
+            @comment    document.getElementsByClassName works under FF20,
+                        Chrome27 and IE9.
+        -->
+        <a class="class1 class2" href="http://apress.com">Apress web site</a>
+        <p/>
+        <a class="class1 otherclass" href="http://w3c.org">W3C web site</a>
+        <script type="text/javascript">
+        (function() {
+            var elems = document.getElementsByClassName('otherclass');
+            for (i = 0; i < elems.length; i++) {
+                var x = elems[i];
+                x.style.border = 'thin solid black';
+                x.style.backgroundColor = 'white';
+                x.style.color = 'black';
+            }
+        })();
+        </script>
+
+        <!--
+            contenteditable attribute
+
+            Setting the attribute value to true allows the user to edit the
+            element contents, and setting it to false disables this feature.
+            (If you don't specify a value, the element inherits the setting
+            for this property from its parent.)
+
+            @date       June 6, 2013
+            @browser    FF20, Chrome27 and IE9.
+        -->
+        <p contenteditable="true">
+            <p contenteditable="true">It is raining right now</p>
+        </p>
+
+        <!--
+            dir attribute
+
+            The dir attribute specifies the direction of an element's text.
+            The two supported values are ltr (for left-to-right) and rtl
+            (for right-to-left).
+
+            @date       June 6, 2013
+            @browser    FF20, Chrome27 and IE9.
+        -->
+        <p dir="rtl">This is right-to-left</p>
+        <p dir="ltr">This is left-to-right</p>
+
+        <!-- draggable attribute -->
+        <!-- dropzone attribute -->
+
+        <!--
+            hidden attribute
+
+            The hidden attribute is a Boolean attribute that indicates an
+            element is not presently relevant. Browsers interpret this
+            attribute by hiding the element from view.
+
+            @date       June 6, 2013
+            @browser    FF20, Chrome27 and IE9.
+            @notwork    IE9
+        -->
+        <script type="text/javascript">
+        function toggleHidden() {
+            var elem = document.getElementById('toggle');
+            if (elem.hasAttribute('hidden')) {
+                elem.removeAttribute('hidden');
+            } else {
+                elem.setAttribute('hidden', 'hidden');
+            }
+        }
+        </script>
+        <button onclick="toggleHidden();">Toggle</button>
+        <table>
+            <tr><th>Name</th><th>City</th></tr>
+            <tr><td>Adam Freeman</td><td>London</td></tr>
+            <tr id="toggle" hidden><td>Joe Smith</td><td>New York</td></tr>
+            <tr><td>Anne Jones</td><td>Paris</td></tr>
+        </table>
+
+        <!-- id attribute -->
+
+        <!-- lang attribute -->
+
+        <!--
+            spellcheck attribute
+
+            The spellcheck attribute is used to specify if the browser should
+            check the spelling of an element's content. Using this attribute
+            makes sense only when it is applied to an element the user can
+            edit.
+
+            @date       June 6, 2013
+            @browser    FF20, Chrome27 and IE9.
+            @notwork    IE9
+        -->
+        <textarea spellcheck="true">This is some mispelled text</textarea>
+
+        <!-- style attribute -->
+
+        <!--
+            tabindex attribute
+
+            The tabindex attribute allows you to control the order in which the
+            Tab key moves the focus through the HTML page, overriding the
+            default order.
+
+            The first element that will be selected is the one that has the
+            tabindex value of 1. When the user presses the Tab key, the element
+            with a tabindex of 2 will be selected, and so on. A tabindex value
+            of -1 ensures that an element will not be selected when the user
+            presses the Tab key.
+
+            @date       June 6, 2013
+            @browser    FF20, Chrome27 and IE9.
+        -->
+        <form>
+            <label>Name: <input type="text" name="name" tabindex="1"></label>
+            <p/>
+            <label>City: <input type="text" name="city" tabindex="-1"></label>
+            <p/>
+            <label>Country: <input type="text" name="country" tabindex="2"></label>
+            <input type="submit" tabindex="3">
+        </form>
+
+        <!--
+            title attribute
+
+            The title attribute provides additional information about an
+            element, which is commonly used by the browser to display tool tip
+            information.
+
+            @date       June 6, 2013
+            @browser    FF20, Chrome27 and IE9.
+        -->
+        <a title="Apress Publishing" href="http://apress.com">Visit the Apress site</a>
+
+    </body>
+</html>

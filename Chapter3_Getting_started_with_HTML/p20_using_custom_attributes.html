@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<!--
+	You can define your own attributes as long as the name you use is prefixed
+	with data-.
+
+	Custom attributes are useful when working with CSS and with Javascript.
+-->
+<input id="carry_custom" disabled data-creator="adam" data-purpose="collection">
+<div id="custom_attributes"></div>
+
+<script type="text/javascript">
+(function() {
+	/*
+	 * @comment Do I read the custom attributes correctly? I'm afraid not. The
+	 * approach I used here is general Javascript getAttribute. I was wondering
+	 * whether there is a way to read custom attributes with a more
+	 * HTML5-oriented approach?
+	 */
+	var input = document.getElementById('carry_custom');
+	var out = document.getElementById('custom_attributes');
+	out.innerHTML = 'data-creator: ' + input.getAttribute('data-creator') 
+		        + ', data-purpose: ' + input.getAttribute('data-purpose');
+})();
+</script>
+
+</body>
+</html>

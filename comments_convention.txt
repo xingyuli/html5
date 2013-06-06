@@ -1,0 +1,14 @@
+
+For improving the readability of my toy code. I use comment annotation in html
+page. Here is a berief instruction of all the comment annotations.
+
+They are:
+
+@date		On what date I tested the code block.
+
+@browser	With what browsers I've tested.
+
+@notwork	Browsers that didn't work among my tested @browser.
+			If this annotation is not present, it means all tested browsers work properly.
+
+@comment	Additional comments about things that have not that much relationship with the HTML5 feature.
