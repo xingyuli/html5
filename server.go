@@ -103,17 +103,17 @@ func main() {
 const welcomeTemplateStr = `
 <!DOCTYPE HTML>
 <html>
-	<head>
-	    <title>Practicing HTML5</title>
-	</head>
-	<body>
-		<h1>Welcome to the practicing server for HTML5!</h1>
-	    
-	    <ul>
-	    {{range .}}
-	    <li><a href="/html5?page={{.Name}}">{{.Name}}</a></li>
-	    {{end}}
-	    </ul>
-	</body>
+    <head>
+        <title>Practicing HTML5</title>
+    </head>
+    <body>
+        <h1>Welcome to the practicing server for HTML5!</h1>
+        
+        <ul>
+        {{range .}}
+        <li><a href="/html5?page={{.Name}}">{{.Name}}</a></li>
+        {{end}}
+        </ul>
+    </body>
 </html>
 `

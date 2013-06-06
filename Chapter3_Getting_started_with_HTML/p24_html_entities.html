@@ -1,28 +1,28 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<style type="text/css">
-	th, td { text-align: right; padding-right: 20px; }
-	</style>
+    <style type="text/css">
+    th, td { text-align: right; padding-right: 20px; }
+    </style>
 </head>
 <body>
-	<script type="text/javascript">
-	(function() {
-		var entities = document.createElement('table');
+    <script type="text/javascript">
+    (function() {
+        var entities = document.createElement('table');
 
-		var header = document.createElement('tr');
-		header.innerHTML = '<th>Character</th><th>Entity Name</th>';
-		entities.appendChild(header);
+        var header = document.createElement('tr');
+        header.innerHTML = '<th>Character</th><th>Entity Name</th>';
+        entities.appendChild(header);
 
-		var names = ['lt', 'gt', 'amp', 'euro', 'pound', 'sect', 'copy', 'reg', 'trade'];
-		for (var i = 0, len = names.length; i < len; i++) {
-			var row = document.createElement('tr');
-			row.innerHTML = '<td>&' + names[i] + ';</td><td>&amp;' + names[i] + ';</td>';
-			entities.appendChild(row);
-		}
+        var names = ['lt', 'gt', 'amp', 'euro', 'pound', 'sect', 'copy', 'reg', 'trade'];
+        for (var i = 0, len = names.length; i < len; i++) {
+            var row = document.createElement('tr');
+            row.innerHTML = '<td>&' + names[i] + ';</td><td>&amp;' + names[i] + ';</td>';
+            entities.appendChild(row);
+        }
 
-		document.body.appendChild(entities);
-	})();
-	</script>
+        document.body.appendChild(entities);
+    })();
+    </script>
 </body>
 </html>
