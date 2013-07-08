@@ -2,95 +2,53 @@ package main
 
 import (
 	"html/template"
-	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
-	"regexp"
+	"path/filepath"
+	"strings"
 )
 
 var (
-	chapterDirNamePattern = regexp.MustCompile("^Chapter\\d*_")
-	htmlFileNamePatten    = regexp.MustCompile(".html$")
-
-	welcomeTemplate = template.Must(template.New("welcome").Parse(welcomeTemplateStr))
+	index     *template.Template
+	templates = make(map[string]*template.Template)
 )
 
-type HtmlPage struct {
-	Name    string
-	Path    string
-	Content string
-}
+const (
+	TEMPLATE_DIR = "./pages"
+)
 
-func loadHtmlPages() (pages []HtmlPage) {
-	fileInfoUnderWorkingDir, err := ioutil.ReadDir(".")
-	if err == nil {
-		for _, fileInfo := range fileInfoUnderWorkingDir {
-			if fileInfo.IsDir() && chapterDirNamePattern.MatchString(fileInfo.Name()) {
-				log.Println("found chapter dir: " + fileInfo.Name())
-
-				for _, htmlFile := range listHtmlFiles(fileInfo) {
-					path := fileInfo.Name() + "/" + htmlFile.Name()
-					log.Println("loading " + path)
-
-					content, err := ioutil.ReadFile(path)
-					if err != nil {
-						log.Printf("error when reading html file %v, caused by\n%v\n", path, err)
-						continue
-					}
-					pages = append(pages, HtmlPage{htmlFile.Name(), path, string(content)})
-				}
-			}
+func init() {
+	index = template.Must(template.ParseFiles("./index.html"))
+	filepath.Walk(TEMPLATE_DIR, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
 		}
-	}
-	return
-}
 
-func listHtmlFiles(dir os.FileInfo) (htmlFiles []os.FileInfo) {
-	fileInfoUnderDir, err := ioutil.ReadDir(dir.Name())
-	if err == nil {
-		log.Println("go through chapter dir: " + dir.Name())
-		for _, fileInfo := range fileInfoUnderDir {
-			if !fileInfo.IsDir() && htmlFileNamePatten.MatchString(fileInfo.Name()) {
-				log.Println("found html file: " + fileInfo.Name())
-				htmlFiles = append(htmlFiles, fileInfo)
-			}
+		if !info.IsDir() {
+			log.Println("Loading template:", path)
+			templateName := path[strings.Index(path, string(os.PathSeparator))+1:]
+			templates[templateName] = template.Must(template.ParseFiles(path))
 		}
-	} else {
-		log.Printf("error occured when get file info under %v, caused by\n%v\n", dir.Name(), err)
-	}
-	return
+		return nil
+	})
 }
 
 func main() {
-	pages := loadHtmlPages()
-	pagePathStr := ""
-	for _, page := range pages {
-		pagePathStr = pagePathStr + page.Path + "\n"
-	}
-	log.Printf("following html5 pages have been loaded\n%s\n", pagePathStr)
-
-	findPage := func(name string) (HtmlPage, bool) {
-		for _, page := range pages {
-			if name == page.Name {
-				return page, true
-			}
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		pages := []string{}
+		for name, _ := range templates {
+			pages = append(pages, name)
 		}
-		return HtmlPage{}, false
-	}
+		index.Execute(w, map[string]interface{}{"pages": pages})
+	})
 
 	http.HandleFunc("/html5", func(w http.ResponseWriter, r *http.Request) {
 		pageParam := r.FormValue("page")
-		if pageParam == "" {
-			welcomeTemplate.Execute(w, pages)
+		if page, ok := templates[pageParam]; ok {
+			page.Execute(w, nil)
 		} else {
-			page, found := findPage(pageParam)
-			if found {
-				io.WriteString(w, page.Content)
-			} else {
-				io.WriteString(w, "Page not found... :(")
-			}
+			http.NotFound(w, r)
 		}
 	})
 
@@ -99,21 +57,3 @@ func main() {
 		log.Fatal("Failed to startup the server", err)
 	}
 }
-
-const welcomeTemplateStr = `
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Practicing HTML5</title>
-    </head>
-    <body>
-        <h1>Welcome to the practicing server for HTML5!</h1>
-        
-        <ul>
-        {{range .}}
-        <li><a href="/html5?page={{.Name}}">{{.Name}}</a></li>
-        {{end}}
-        </ul>
-    </body>
-</html>
-`

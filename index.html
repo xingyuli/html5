@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Practicing HTML5</title>
+    </head>
+    <body>
+        <h1>Welcome to the practicing server for HTML5!</h1>
+        
+        <ul>
+        {{range .pages}}
+        <li><a href="/html5?page={{.}}">{{.}}</a></li>
+        {{end}}
+        </ul>
+    </body>
+</html>
